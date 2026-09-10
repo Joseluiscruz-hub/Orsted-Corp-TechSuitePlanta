@@ -1,7 +1,14 @@
-<!-- Navigation Toggle -->
-<!-- Hidden by default (opacity-0) to keep dashboard clean. Hover bottom-right to see. -->
-<div class="fixed bottom-4 right-4 z-50 opacity-0 hover:opacity-100 transition-opacity duration-500">
-  <button (click)="toggleView()" 
+<!-- Navigation Toggle — siempre visible -->
+<div class="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2">
+  @if (currentView() === 'admin' && store.authUser()) {
+    <button (click)="logout()"
+      class="bg-slate-700 text-white px-3 py-2 rounded-full shadow-lg hover:scale-105 transition-transform border border-slate-500 text-sm font-bold">
+      Cerrar sesión
+    </button>
+  }
+
+  <button
+    (click)="currentView() === 'dashboard' ? openAdmin() : goDashboard()"
     class="bg-brand-dark text-white p-3 rounded-full shadow-lg hover:scale-105 transition-transform border-2 border-brand-red flex items-center gap-2">
     @if (currentView() === 'dashboard') {
       <span class="font-bold">⚙️ Admin</span>
@@ -11,9 +18,41 @@
   </button>
 </div>
 
+<!-- Login modal -->
+@if (showLogin()) {
+  <div class="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4" (click)="showLogin.set(false)">
+    <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm" (click)="$event.stopPropagation()">
+      <h2 class="text-lg font-bold text-slate-800 mb-4">Acceso administrador</h2>
+      <form class="flex flex-col gap-3" (ngSubmit)="submitLogin()">
+        <label class="text-sm font-semibold text-slate-600">
+          Correo
+          <input type="email" name="email" [(ngModel)]="loginEmail" required
+            class="mt-1 w-full border border-slate-300 rounded-lg px-3 py-2 text-sm" autocomplete="username" />
+        </label>
+        <label class="text-sm font-semibold text-slate-600">
+          Contraseña
+          <input type="password" name="password" [(ngModel)]="loginPassword" required
+            class="mt-1 w-full border border-slate-300 rounded-lg px-3 py-2 text-sm" autocomplete="current-password" />
+        </label>
+        @if (store.authError()) {
+          <p class="text-sm text-rose-600">{{ store.authError() }}</p>
+        }
+        <div class="flex gap-2 justify-end mt-2">
+          <button type="button" (click)="showLogin.set(false)"
+            class="px-3 py-2 text-sm rounded-lg border border-slate-300 text-slate-700">Cancelar</button>
+          <button type="submit"
+            class="px-3 py-2 text-sm rounded-lg bg-brand-dark text-white font-bold border border-brand-red">Entrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
+
 <!-- View Router -->
 @if (currentView() === 'dashboard') {
   <app-dashboard></app-dashboard>
-} @else {
+} @else if (store.authUser()) {
   <app-admin></app-admin>
+} @else {
+  <app-dashboard></app-dashboard>
 }

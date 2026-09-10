@@ -1,0 +1,8 @@
+{
+  "rules": {
+    "dashboard_state": {
+      ".read": true,
+      ".write": "auth != null"
+    }
+  }
+}

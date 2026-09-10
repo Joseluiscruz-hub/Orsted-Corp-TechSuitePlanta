@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ng serve",
     "build": "ng build",
-    "deploy": "ng build --base-href /IndicadoresPlanta/ && npx ngh --dir dist/browser",
+    "deploy": "ng build --base-href /Orsted-Corp-TechSuitePlanta/ && npx ngh --dir dist/browser",
     "preview": "ng serve --configuration=production"
   },
   "dependencies": {
@@ -14,19 +14,18 @@
     "@angular/cli": "^21.2.7",
     "@angular/common": "^21.2.9",
     "@angular/compiler": "^21.2.9",
-    "@angular/compiler-cli": "^21.1.0",
+    "@angular/compiler-cli": "^21.2.9",
     "@angular/core": "^21.2.9",
     "@angular/forms": "^21.2.9",
     "@angular/platform-browser": "^21.2.9",
-    "@google/genai": "^1.38.0",
     "firebase": "^12.8.0",
     "rxjs": "^7.8.2",
-    "tailwindcss": "latest"
+    "tailwindcss": "^3.4.17"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
     "angular-cli-ghpages": "^3.0.2",
-    "typescript": "~5.8.2",
+    "typescript": "~5.9.2",
     "vite": "^6.4.2"
   }
 }
